@@ -1,0 +1,177 @@
+
+<html>
+<body>
+<!-- 图片预览界面 在html页面中添加该部分内容 -->
+	<div id="imgCarousel" class="carousel slide my_carousel">
+		<!-- 指示标志列表 -->
+		<ol class="carousel-indicators">
+		</ol>   
+		<!-- 图片列表 -->
+		<div class="carousel-inner">
+		</div>
+		<!-- 两侧切换 -->
+		<a class="carousel-control left my_a_carousel" href="#imgCarousel" 
+		   data-slide="prev"></a>
+		<a class="carousel-control right my_a_carousel" href="#imgCarousel" 
+		   data-slide="next"></a>
+		<!-- 控制按钮 -->
+		<div class="my_carousel_button_group">
+			<input type="button" class="btn prev-slide" value="上一张">
+			<input type="button" class="btn next-slide" value="下一张">
+			<label>选择删除：</label>
+			<input type="checkbox" class="btn" id="checkCarousel">
+		</div>
+		<!-- 关闭按钮 -->
+		<a class="my_carousel_close" href="javasript:void(0)">&times;</a>
+	</div> 
+</body>
+</html>
+
+<script>
+/**
+ *	根据#div_main的照片勾选状态更新#checkCarousel勾选状态，组件js中编写
+ */
+var updateCheckCarousel = function(){
+	var imgPath = $("#imgCarousel .carousel-inner .item.active img").attr("src");
+	var isChecked =$("#div_main input.imgDel[value='"+imgPath+"']").prop('checked');
+	$("#checkCarousel").prop("checked",isChecked);
+}
+/**
+ *	初始化照片预览界面，组件js中编写，由使用的页面js手动调用进行初始化
+ */
+var _initCarousel = function(isHidden){
+	//过渡效果结束时回调该方法
+	$('#imgCarousel').on('slid.bs.carousel', function(){
+		updateCheckCarousel();
+	});
+	//关闭按钮隐藏窗口
+	$("#imgCarousel .my_carousel_close").on("click",function(){
+		$("#imgCarousel").hide();
+	});
+	//上一张按钮
+	$("#imgCarousel .prev-slide").on("click",function(){
+		$("#imgCarousel").carousel('prev');
+	});
+	//下一张按钮
+	$("#imgCarousel .next-slide").on("click",function(){
+		$("#imgCarousel").carousel('next');
+	});
+	//#checkCarousel勾选状态状态改变时更新#div_main对应照片的勾选状态
+	$("#checkCarousel").on("change",function(){
+		var imgPath = $("#imgCarousel .carousel-inner .item.active img").attr("src");
+		var isChecked = $("#checkCarousel").prop('checked');
+		$("#div_main input.imgDel[value='"+imgPath+"']").prop("checked",isChecked);
+	});
+	if(isHidden == true){
+		$('#imgCarousel').hide();
+	}
+}
+/**
+ * 打开特定的图片预览界面，可为目标绑定该事件如：
+ * <a onclick='_openImage(this)' href='javascript:void(0)' name='图片地址'>
+ * 	<img src='图片地址' alt='照片' height='160' width='auto'/>
+ * </a>
+ */
+var _openImage = function(target){
+	var imgPath = target.name;
+	var index = $("#imgCarousel .carousel-inner img[src='"+imgPath+"']").attr("alt");
+	$("#imgCarousel").carousel(index);
+	$("#imgCarousel").show();
+}
+
+/**
+ *	往轮播组件中添加图片时采用如下格式代码
+ */
+var loadImgs = function(imgPaths){
+	$("#imgCarousel .carousel-indicators").empty();
+	$("#imgCarousel .carousel-inner").empty();
+	$.each(imgPaths,function(n,imgPath){
+		$("#imgCarousel .carousel-indicators").append(['<li data-target="#imgCarousel" data-slide-to="',n,'" ></li>'].join(""));
+		$("#imgCarousel .carousel-inner").append(['<div class="item"><img src="',imgPath,'" alt="图片',n,'"></div>'].join(""));
+	}
+	$("#imgCarousel .carousel-indicators>li:first").addClass("active");
+	$("#imgCarousel .carousel-inner>div:first").addClass("active");
+}
+
+
+</script>
+
+<style>
+		/**
+		 *	该部分代码为轮播组件css，写在组件css文件中
+		 */
+		.my_carousel{
+			position:fixed;
+			width: 100%;
+			height:100%;
+			left:0;
+			top:0;
+			background:#333333;
+		}
+		.my_carousel .carousel-inner{
+			z-index:-1;
+			width: 100%;
+			height:100%;
+			left:0;
+			top:0;
+		}
+		.my_carousel .carousel-inner>div{
+			position:relative;
+			width: 100%;
+			height:100%;
+			left:0;
+			top:0;
+		}
+		.my_carousel .carousel-inner>div>img{
+			position:absolute;
+			margin:auto;
+			max-height: 90%;
+			top: 0;  
+    		right: 0;  
+   			bottom: 0;  
+   			left: 0; 
+
+		}
+		.my_carousel .carousel-indicators{
+			bottom:64px;
+		}
+		.my_carousel .my_carousel_button_group{
+			position:absolute;
+			text-align:center;
+			bottom:15px;
+			width:480px;
+			padding:15px;
+			left:50%;
+			margin-left:-240px;
+		}
+		.my_carousel .my_carousel_button_group>input{
+			margin:0 10px;
+		}
+		.my_carousel .my_carousel_button_group>input[type='checkbox']{
+			width:20px;
+			height:20px;
+		}
+		.my_carousel .my_carousel_button_group>label{
+			color:white;
+			font-weight: normal;
+		}
+		.my_a_carousel{
+			line-height: 100%;
+		}
+		.my_carousel_close:link,.my_carousel_close:visited{
+			position:fixed;
+			width:50px;
+			height:50px;
+			font-size:50px;
+			line-height:50px;
+			text-align: center;
+			right:0;
+			top:0;
+			color:#aaaaaa;
+			z-index:5;
+			text-decoration: none;
+		}
+		.my_carousel_close:hover,.my_carousel_close:active{
+			color:#0088ff;
+		}
+	</style>

@@ -1,0 +1,97 @@
+<html>
+	<header>
+		<title>tips_componnet_test</title>
+		<style>
+			body{
+				background-color: #ffffee;
+			}
+			.row-block>div{
+				display:inline-block;
+				vertical-align:top;
+				/*
+					vertical-align:bottom;或者vertical-align:top;能够解决inline-block的元素包含input时，发生上下错位的问题。
+					vertical-align默认baseline 对齐，但是input 这种替换元素的 baseline 并没有在元素底部，
+					详情可看http://w3help.org/zh-cn/causes/RD1016
+				 */
+			}
+			.field-ctrl input{
+				width:150px;
+				height:20px;
+			}
+			.field-desc{
+				width:30px;
+				height:20px;
+			}
+			.warn-btn{
+				position:relative;
+				width:100%;
+				height:100%;
+				/* 使用flex居中
+				display:flex;
+				justify-content:center;
+				align-items:center;
+				*/
+			}
+			.warn-btn .warn{
+				position:absolute;
+				top:0;
+				left:100%;
+				width:300px;
+				min-height:30px;
+				background-color: white;
+				padding:5px;
+				border: 1px solid #ddddff;
+				display:none;
+			}
+			.warn-btn:hover .warn{
+				display: block;
+			}
+			.warn-btn .warn-icon{
+				width:16px;
+				height:16px;
+				border:solid 1px #8888ff;
+				color:#8888ff;
+				border-radius: 25px;
+				text-align: center;
+				cursor:pointer;
+				font-size: 12px;
+				/*固定宽高元素可使用绝对定位居中*/
+				position:absolute;
+				left:50%;
+				top:50%;
+				margin-left: -9px;
+				margin-top:  -9px;
+			}
+			.warn-btn .warn-icon:before{
+				content:"?";
+			}
+			/*
+			.warn-btn img{
+				width:20px;
+				height:20px;
+			}
+			*/
+
+		</style>
+	</header>
+	<body>
+		<div class="row-block">
+			<div>
+				输入框：
+			</div>
+			<div class="field-ctrl">
+				<input name="testInput" type="text"/>
+			</div>
+			<div class="field-desc">
+				<div class="warn-btn">
+					<!-- img src="tips_icon.jpg"/ -->
+					<div class="warn-icon"></div>
+					<div class="warn">
+						tips测试，长一点看看，再长一点再长一点再长一点再长一点再长一点再长一点再长一点再长一点再长一点再长一点再长一点再长一点再长一点再长一点再长一点再长一点。
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

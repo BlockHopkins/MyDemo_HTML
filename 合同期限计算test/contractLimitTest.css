@@ -1,0 +1,21 @@
+.div_row{
+	
+}
+
+.div_content{
+	display:inline-block;
+	margin:5px 20px;
+}
+
+label{
+	margin:0 5px;
+}
+
+.span_display{
+	display:block;
+	border:1px solid #aaaaaa;
+	border-radius:5px;
+	min-height:50px;
+	min-width:300px;
+	margin:5px;
+}

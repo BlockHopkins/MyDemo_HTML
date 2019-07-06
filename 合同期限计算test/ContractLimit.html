@@ -1,0 +1,32 @@
+<html>
+<head>
+	<title>合同期限计算测试</title>
+	<link rel="stylesheet" href="contractLimitTest.css"></link>
+	<script src="jquery-3.2.0.min.js"></script>
+	<script src="contractLimitTest.js"></script>
+</head>
+<body>
+	<div class="div_row">
+		<div class="div_content">
+			<label>开始日期</label>
+			<input type="text" id="effectDate" name="effectDate" value="2018-01-01"/>
+		</div>
+		<div class="div_content">
+			<label>结束日期</label>
+			<input type="text" id="endDate" name="endDate"/>
+		</div>
+	</div>
+	<div class="div_row">
+		<div class="div_content">
+			<label>合同期限</label>
+			<input type="text" id="contractLimitAuto" name="contractLimitAuto"/>
+		</div>
+	</div>
+	<div class="div_row">
+		<div class="div_content">
+			<label>计算公式</label>
+			<span id="cal" class="span_display"></span>
+		</div>
+	</div>
+</body>
+</html>

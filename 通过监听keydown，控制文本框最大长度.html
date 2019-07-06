@@ -1,0 +1,111 @@
+<script language="JavaScript" type="text/javascript">
+/*
+https://www.cnblogs.com/snandy/p/3573829.html
+
+【先了解下各事件的区别】
+keydown：在控件有焦点的情况下按下键时发生
+keypress：在控件有焦点的情况下按下键时发生
+keyup：   在控件有焦点的情况下释放键时发生
+
+【意义】
+keypress主要用来接收字母、数字等ANSI字符。keydown 和 keyup 事件过程通常可以捕获键盘除了PrScrn所有按键 （这里不讨论特殊键盘的特殊键）
+keypress 只能捕获单个字符，keydown 和 keyup 可以捕获组合键
+keypress 不显示键盘的物理状态（SHIFT键），而只是传递一个字符。keypress 将每个字符的大、小写形式作为不同的键代码解释，即作为两种不同的字符。
+keydown 和 keyup 不能判断键值字母的大小，用两种参数解释每个字符的大写形式和小写形式：keycode — 显示物理的键（将 A 和 a 作为同一个键返回）和 shift —指示 shift + key 键的状态而且返回 A 或 a 其中之一
+keypress 不区分小键盘和主键盘的数字字符，keydown 和 keyup 区分小键盘和主键盘的数字字符
+keydown、keyup事件是当按下 ( keydown ) 或松开 ( keyup ) 一个键时发生的。由于一般按下键盘的键往往会立即放开（这和鼠标不同），所以这两个事件使用哪个差别不大。而且，up和其他两者还有一个区别：要判断key修改后的状态必须用up
+ 
+
+我们可以利用keydown事件来阻止用户的输入，比如某输入域只能输入数字
+
+键盘上数字键的keyCode
+[48-57]  数字键
+[96-105] 数字小键盘
+此外允许Backspace键删除
+
+另外还要注意：
+1.复制黏贴的情况
+2.中文的情况
+
+*/
+
+
+/**
+ * 格式化当前输入框内容，最多只能两位小数
+ */
+function clearNoNum(obj){
+	obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+	obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字而不是小数点
+	obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的小数点
+	obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");//只保留第一个. 清除多余的小数点
+	obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
+}
+
+/**
+ * 阻止事件冒泡
+ */
+function stopDefault(e) {  
+    //如果提供了事件对象，则这是一个非IE浏览器   
+    if(e && e.preventDefault) {  
+    　　//阻止默认浏览器动作(W3C)  
+    　　e.preventDefault();  
+    } else {  
+    　　//IE中阻止函数器默认动作的方式   
+    　　window.event.returnValue = false;   
+    }  
+    return false;  
+}
+
+/**
+ *	控制不能输入特殊字符
+ */
+function processSpelChar(){   
+	var code;   var character;  
+	 if(document.all){     
+	  code = window.event.keyCode;   
+	}else{     
+	  code = arguments.callee.caller.arguments[0].which;  
+	 }   
+	var character = String.fromCharCode(code);   
+	var txt = new RegExp(/["'<>%;)(&+]/);  
+	 if(txt.test(character)){     
+	    if(document.all){       
+	    window.event.returnValue = false;    
+	   }else{      
+	     arguments.callee.caller.arguments[0].preventDefault();    
+	 }   
+	} 
+}
+
+/*
+ * 定义长度，当长度到达最大时阻止冒泡提交，
+ * keydown和keypress事件触发时输入流尚未提交，取到的value是输入前的值，当前输入的值可以从event中获取
+ * 类似于为input添加属性maxlength="5"，如<input type="text" name="example"  maxlength="4"/>
+ */
+function handleKeyDown(element,event){
+	// 这里还要增加处理:
+	//1.复制黏贴的情况
+	//2.已到达最大长度下，退格键、删除键应该可以生效
+	//3.已到达最大长度下，选中已输入内容应该可以进行替换
+	if(element.value.length==parseInt(element.getAttribute("maxLen"))){
+		stopDefault(event);//阻止当前事件冒泡提交
+	}
+}
+
+/*(new RegExp(/^\-*\d+\.\d\d.*$/)).test(obj.value)
+*/
+</script>
+<div>
+	<p>通过监听keyup，控制只能输入两位小数</p>
+	<input type="text" name="testKeyup" onkeyup="clearNoNum(this)"/>
+</div>
+<div>
+	<p>通过监听keydown，控制文本框最大长度</p>
+	<input type="text" name="testKeydown" onkeydown="handleKeyDown(this,event)" maxLen="5"/>
+</div>
+<div>
+	<p>通过设置maxlength="5"属性</p>
+	<input type="text" name="testMaxLength" maxlength="5"/>
+</div>
+
+<input type="number" step="0.01" min="0.01" max="10"> 

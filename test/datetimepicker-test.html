@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"> 
+	<title>Bootstrap 实例 - 折叠面板</title>
+	<link rel="stylesheet" href="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/dateFormat.js"></script>
+	<script src="js/bootstrap-datetimepicker.min.js"></script>
+	<script src="js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+	<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+	<script>
+		// $(function () {  
+		// 	$("body").append([
+		// 		"<div class='row'>",
+		// 		"<div class='col-sm-6'>",
+		// 	       "<div class='form-group'>",
+		// 	            "<label>选择日期+时间：</label>",
+		// 	            "<div class='input-group date' id='datetimepickerInput'>" ,
+		// 	             	"<input type='text' class=''form-control' />",
+		// 	               "<span class=input-group-addon'>",
+		// 	                 "<span class='glyphicon glyphicon-calendar'></span>",
+		// 	                "</span></div></div></div></div>"
+		// 	].join(""));
+		//     $('#datetimepickerInput').datetimepicker({  
+		//         format: 'yyyy-mm-dd hh:mm',  
+		//         language:'zh-CN'
+		//     });  
+		// }); 
+		$(document).ready(function(){
+			var currentYear = new Date().Format("yyyy");
+			var currentDate = new Date().Format("yyyy-MM-dd_hh:mm");
+
+			$("body").append(['<div class="input-group form_datetime col-md-4 date" id="datetimepicker" data-date="',currentDate,'" data-date-format="yyyy-mm-dd_hh:ii">',
+				'<input type="text"  class="form-control" value="',currentDate,'" readonly>',
+				'<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div>'].join("")
+				);
+
+			$("#datetimepicker").datetimepicker({
+				autoclose:true,
+				language:"zh-CN",
+				startDate:currentYear+"-01-01_00:01",
+				endDate:currentYear+"-12-31_23:55"
+			});
+		});
+	</script>
+</head>
+<body>
+<!-- 	<div class="input-append date" id="datetimepicker" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+    <input size="16" type="text" value="12-02-2012" readonly>
+    <span class="add-on"><i class="icon-th"></i></span> -->
+
+</body>
+</html>

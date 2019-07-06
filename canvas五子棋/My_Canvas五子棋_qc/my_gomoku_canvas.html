@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>	
+	<title>五子棋Canvas</title>
+	<script src="jquery-3.2.0.min.js"></script>
+	<script src="my_gomoku_canvas.js"></script>
+	<link rel="stylesheet" href="my_gomoku_canvas.css"/>
+</head>
+<body>
+	<div class="main">
+		<div id="buttonGroup" class="main_left buttonGroup">
+			<button id="btn_reset">重置游戏</button>
+			<button id="btn_undo">悔棋</button>
+			<button id="btn_redo">撤销悔棋</button>
+			<span id="span_msg"></span>
+		</div>
+		<div id="gomoku" class="main_right">
+			<!-- 棋盘 -->
+			<canvas id="canvas_basic" class="canvas_basic canvas" width="500" height="500"></canvas>
+			<!-- 棋子记录 -->
+			<canvas id="canvas_record" class="canvas_record canvas" width="500" height="500"></canvas>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<html>
+	<head>
+		<title>url转码</title>
+		<style>
+			body{
+				padding:0;
+				margin:0;
+				/*display:flex;
+				flex-direction:column;
+				justify-content:flex-start;
+				align-items:center;*/
+			}
+			button{
+				width : 200px;
+				height : 50px;
+				margin : 10px 20px;
+				background : #eeaa44;
+				color : #ffffff;
+				font-size : 15px;
+				border-radius : 15px;
+				border:0px;
+			}
+			.main-wrapper{
+				padding:20px;
+			}
+			.divInput{
+				height : 50px;
+				font-size : 15px;
+				width : 100%;
+			}
+			.textField{
+				width : 800px;
+				height : 30px;
+				font-size : 15px;
+				border-radius : 5px;
+				border : 1px #cccccc solid;
+			}
+			.divResult{
+				margin : 50px;
+			}
+			.footer{
+				color:white;
+				position:fixed;
+				width:100%;
+				bottom:0;
+				background-color: #555555;
+				display:flex;
+				justify-content:center;
+				align-items:center;
+			}
+			.footer-inner{
+
+			}
+		</style>
+		<script>
+				function encodeUri(){
+					var inputValue = document.getElementById("inputField").value;
+					var result = encodeURI(inputValue);
+					document.getElementById("resultField").innerText = result;
+				};
+				function decodeUri(){
+					var inputValue = document.getElementById("inputField").value;
+					var result = decodeURI(inputValue);
+					document.getElementById("resultField").innerText = result;
+				};
+				function encodeUriCom(){
+					var inputValue = document.getElementById("inputField").value;
+					var result = encodeURIComponent(inputValue);
+					document.getElementById("resultField").innerText = result;
+				};
+				function decodeUriCom(){
+					var inputValue = document.getElementById("inputField").value;
+					var result = decodeURIComponent(inputValue);
+					document.getElementById("resultField").innerText = result;
+				};
+		</script>
+	</head>
+	<body>
+		<div class="main-wrapper">
+			<h3>url转码</h3>
+			<div class="divInput">
+				<label>输入文本</label>
+				<input type="text" name="inputField" id="inputField" class="textField"/>
+			</div>
+			<div>
+				<button id="encodeUri" onclick="encodeUri()">encodeURI</button>
+				<button id="decodeUri" onclick="decodeUri()">decodeURI</button>
+			</div>
+			<div>
+				<button id="encodeUriCom" onclick="encodeUriCom()">encodeURIComponent</button>
+				<button id="decodeUriCom" onclick="decodeUriCom()">decodeURIComponent</button>
+			</div>
+			
+			<div class="divResult">
+				<span name="resultField" id="resultField"></span>
+			</div>
+		</div>
+		<div class="footer">
+			<div class="footer-inner">
+				<p>
+					encodeURI被设计来用于对完整URL进行URL Encode，于是URL中的功能字符，比如&, ?, /, =等等这些并不会被转义；
+				</p>
+				<p>
+					encodeURIComponent被设计来对一个URL中的值进行转义，会把这些功能字符也进行转义。
+				</p>
+			</div>
+		</div>
+	</body>
+</html>

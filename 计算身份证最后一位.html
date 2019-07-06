@@ -1,0 +1,186 @@
+<html>
+<style>
+button{
+	width : 200px;
+	height : 20px;
+	background : #eeaa44;
+	color : white;
+	border-radius : 5px;
+	border : 0;
+	font-size : 15px;
+	cursor:pointer;
+}
+.div_vertical_margin{
+	height : 20px;
+}
+.divResult{
+	margin : 20px;
+}
+.divResult > div{
+	margin :10px 0;
+}
+.divResult label{
+	display : inline-block;
+	width : 100px;
+	color : blue;
+}
+.error{
+	font-weight : bold;
+	color : red;
+}
+</style>
+<script>
+var templateId = "11011419910427006";
+var regionCode = "110114";
+var bornYear = "1991";
+/**
+ *	根据17位号码计算得到第18位
+ */
+function getCnNewIDLastBit(cid){
+	if(cid.length != 17){
+		document.getElementById("errorField").innerText = "生成身份证号码长度异常，请检查输入！";
+	}else{
+		document.getElementById("errorField").innerText = "";
+	}
+    var arrExp = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];//加权因子  
+    var arrValid = [1, 0, "X", 9, 8, 7, 6, 5, 4, 3, 2];//校验码   
+    var sum = 0, idx;  
+    for(var i = 0; i < cid.length; i++){  
+        // 对前17位数字与权值乘积求和  
+        sum += parseInt(cid.substr(i, 1), 10) * arrExp[i];  
+    }  
+    // 计算模（固定算法）  
+    idx = sum % 11;  
+    // 检验第18为是否与校验码相等  
+    //alert(arrValid[idx] + ":" + cid + arrValid[idx]);
+	document.getElementById("validField").innerText = arrValid[idx];
+	document.getElementById("resultField").innerText = cid + arrValid[idx];
+    return arrValid[idx];
+} 
+/* 
+function getIDByCurrentDate(regionCodeParam, bornYearParam){
+	//生成的身份证号码用于测试，为保证短期内生成的结果不重复，采用如下生成规则:
+	//生成规则为：6位地区码 + 3位出生年份(后3位) + 8位当前月日时分 + 1位校验码 
+	if(regionCodeParam)
+		regionCode = regionCodeParam;
+	if(bornYearParam)
+		bornYear = bornYearParam;
+	bornYear = bornYear.substring(bornYear.length-3, bornYear.length);//年份只取最后三位
+	var currentDate = new Date();
+	var month = currentDate.getMonth()+1;
+	var monthStr = month + "";
+	var date = currentDate.getDate();
+	var dateStr = date + "";
+	var hour = currentDate.getHours();
+	var hourStr = hour + "";
+	var minute = currentDate.getMinutes();
+	var minuteStr = minute + "";
+	if(month<10){//月份补足两位数
+		monthStr = "0" + monthStr;
+	}
+	if(date<10){//日期补足两位数
+		dateStr = "0" + dateStr;
+	}
+	if(hour<10){//小时补足两位数
+		hourStr = "0" + hourStr;
+	}
+	if(minute<10){//分钟补足两位数
+		minuteStr = "0" + minuteStr;
+	}
+	var ID = [regionCode, bornYear, monthStr, dateStr, hourStr, minuteStr].join("");
+	return getCnNewIDLastBit(ID);
+}
+*/
+//如果要使用身份证进行生日推算，使用这个
+function getIDByCurrentDate(regionCodeParam, bornYearParam){
+	//生成的身份证号码用于测试，为保证短期内生成的结果不重复，采用如下生成规则:
+	//生成规则为：6位地区码 + 4位出生年份 + 8位当前月日时分(分钟只取末位) + 1位校验码 
+	if(regionCodeParam)
+		regionCode = regionCodeParam;
+	if(bornYearParam)
+		bornYear = bornYearParam;
+	bornYear = bornYear;
+	var currentDate = new Date();
+	var month = currentDate.getMonth()+1;
+	var monthStr = month + "";
+	var date = currentDate.getDate();
+	var dateStr = date + "";
+	var hour = currentDate.getHours();
+	var hourStr = hour + "";
+	var minute = currentDate.getMinutes();
+	var minuteStr = minute + "";
+	if(month<10){//月份补足两位数
+		monthStr = "0" + monthStr;
+	}
+	if(date<10){//日期补足两位数
+		dateStr = "0" + dateStr;
+	}
+	if(hour<10){//小时补足两位数
+		hourStr = "0" + hourStr;
+	}
+	if(minute<10){//分钟补足两位数
+		minuteStr = "0" + minuteStr;
+	}
+	minuteStr = minuteStr.substring(1,2);
+	var ID = [regionCode, bornYear, monthStr, dateStr, hourStr, minuteStr].join("");
+	return getCnNewIDLastBit(ID);
+}
+
+function handleGetIDByTemplate(){
+	var templateIdParam = document.getElementById("templateIdText").value;
+	if(templateIdParam)
+		templateId = templateIdParam;
+	return getCnNewIDLastBit(templateId);
+}
+
+function handleGetIDByCurrentDate(){
+	var regionCodeParam = document.getElementById("regionCodeText").value;
+	var bornYearParam = document.getElementById("bornYearText").value;
+	return getIDByCurrentDate(regionCodeParam, bornYearParam);
+}
+/** 
+* 检验18位身份证号码（15位号码可以只检测生日是否正确即可） 
+* @author wolfchen 
+* @param cid 18为的身份证号码 
+* @return Boolean 是否合法 
+**/  
+/*
+function isCnNewID(cid){  
+    var arrExp = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];//加权因子  
+    var arrValid = [1, 0, "X", 9, 8, 7, 6, 5, 4, 3, 2];//校验码  
+    if(/^/d{17}/d|x$/i.test(cid)){  
+        var sum = 0, idx;  
+        for(var i = 0; i < strID.length - 1; i++){  
+            // 对前17位数字与权值乘积求和  
+            sum += parseInt(cid.substr(i, 1), 10) * arrExp[i];  
+        }  
+        // 计算模（固定算法）  
+        idx = sum % 11;  
+        // 检验第18为是否与校验码相等  
+        return arrValid[idx] == cid.substr(17, 1).toUpperCase();  
+    }else{  
+        return false;  
+    }  
+} */ 
+</script>
+<body>
+	<h4>
+		Generate CN New ID Number 计算身份证最后一位
+	</h4>
+	<div>
+		<button onclick='handleGetIDByTemplate()'>Count_ID_Last_Bit</button>
+		TemplateID(Length:17)：<input type="text" id="templateIdText" value="11011419910427006" style="width:150px"/>
+	</div>
+	<div class="div_vertical_margin"></div>
+	<div>
+		<button onclick='handleGetIDByCurrentDate()'>Random_ID_Current_Date</button>
+		RegionCode(Length:6)：<input type="text" id="regionCodeText" value="110114" style="width:80px"/>
+		Birthday_Year(Length:4)：<input type="text" id="bornYearText" value="1991" style="width:50px"/>
+	</div>
+	<div class="divResult">
+		<div><label>校验位：</label>	<span id="validField" ></span></div>
+		<div><label>生成号码：</label><span id="resultField" ></span></div>
+		<div><span id="errorField" class="error" ></span></div>
+	</div>
+</body>
+</html>

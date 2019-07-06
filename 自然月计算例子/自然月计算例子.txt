@@ -1,0 +1,10 @@
+=IF(
+	B2 - DATE(YEAR(B2),MONTH(B2),1)=0,
+	DATEDIF(B2,C2,"m")*50,
+	50*(1-((B2-DATE(YEAR(B2),MONTH(B2),1))/DAY(DATE(YEAR(B2),MONTH(B2)+1,1)-1)))
+	
+	
+	+
+	
+	DATEDIF(B2,C2,"m")*50
+)

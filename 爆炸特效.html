@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>.effect() 演示</title>
+  <link rel="stylesheet" href="http://apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+  <style>
+  div {
+    width: 100px;
+    height: 100px;
+    background: #ccc;
+    border: 1px solid #000;
+  }
+  </style>
+  <script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+</head>
+<body>
+ 
+<p>点击任意地方应用特效。</p>
+<div></div>
+ 
+<script>
+$( document ).click(function() {
+  $( "div" ).toggle( "explode",{pieces:256,easings:"easeOutBounce"}, "slow" );
+});
+</script>
+ 
+</body>
+</html>
